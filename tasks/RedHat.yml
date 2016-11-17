@@ -1,0 +1,7 @@
+- name: install prerequisites
+  yum: name={{item}} state=present
+  with_items:
+    - "@Development tools"
+    - openssl-devel
+    - sqlite-devel
+    - bzip2-devel

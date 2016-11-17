@@ -1,0 +1,13 @@
+- name: install prerequisites
+  apt: name={{item}} state=present
+  with_items:
+    - gcc
+    - build-essential
+    - make
+    - libbz2-dev
+    - libsqlite3-dev
+    - libreadline-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libssl-dev
+    - libgdbm-dev

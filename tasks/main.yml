@@ -1,0 +1,24 @@
+- name: include OS specific tasks
+  include: "{{ansible_os_family}}.yml"
+  become: yes
+
+- name: "download python{{python_version}}"
+  get_url:
+    url: "https://www.python.org/ftp/python/{{python_version}}/Python-{{python_version}}.tgz"
+    dest: "/tmp/Python-{{python_version}}.tgz"
+    checksum: "{{python_checksum}}"
+
+- name: untar
+  unarchive:
+    copy: no
+    src: "/tmp/Python-{{python_version}}.tgz"
+    dest: /tmp/
+
+- stat: 
+    path: "/opt/python{{python_version}}"
+  register: p
+
+- name: make
+  shell: "cd /tmp/Python-{{python_version}} && ./configure --prefix=/opt/python{{python_version}} && make && make install"
+  become: yes
+  when: p.stat.isdir is not defined
